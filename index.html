@@ -37,49 +37,111 @@
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .container {
+        padding: 0 1.5rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        padding: 0 2rem;
+      }
     }
 
     /* Hero Section */
     .hero {
       background-color: var(--sand-100);
-      padding: 4rem 0;
+      padding: 2rem 0;
+    }
+
+    @media (min-width: 640px) {
+      .hero {
+        padding: 3rem 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero {
+        padding: 4rem 0;
+      }
     }
 
     .hero-grid {
       display: grid;
-      gap: 3rem;
+      gap: 2rem;
       align-items: center;
     }
 
     @media (min-width: 768px) {
       .hero-grid {
         grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-grid {
+        gap: 3rem;
       }
     }
 
     .hero-content {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .hero-content {
+        gap: 1.25rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-content {
+        gap: 1.5rem;
+      }
     }
 
     .overline {
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       font-weight: 600;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--primary-600);
     }
 
+    @media (min-width: 640px) {
+      .overline {
+        font-size: 0.75rem;
+        letter-spacing: 0.25em;
+      }
+    }
+
     .hero h1 {
-      font-size: 2.5rem;
+      font-size: 1.875rem;
       font-weight: bold;
       color: var(--primary-800);
       line-height: 1.2;
     }
 
+    @media (min-width: 640px) {
+      .hero h1 {
+        font-size: 2.25rem;
+      }
+    }
+
     @media (min-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
       .hero h1 {
         font-size: 3rem;
       }
@@ -90,40 +152,62 @@
     }
 
     .hero-description {
-      font-size: 1.125rem;
+      font-size: 0.9375rem;
       color: var(--gray-700);
+      line-height: 1.7;
+    }
+
+    @media (min-width: 640px) {
+      .hero-description {
+        font-size: 1rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-description {
+        font-size: 1.125rem;
+      }
     }
 
     .button-group {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0.75rem;
     }
 
-    .btn-primary {
+    @media (min-width: 480px) {
+      .button-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+    }
+
+    .btn-primary, .btn-secondary {
       padding: 0.75rem 1.5rem;
-      background-color: var(--primary-600);
-      color: white;
       text-decoration: none;
       border-radius: 0.5rem;
       font-weight: 500;
       font-size: 0.875rem;
-      transition: background-color 0.2s;
+      transition: all 0.2s;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-600);
+      color: white;
     }
 
     .btn-primary:hover {
       background-color: var(--primary-700);
+      transform: translateY(-1px);
     }
 
     .btn-secondary {
-      padding: 0.75rem 1.5rem;
       border: 1px solid var(--primary-200);
       color: var(--primary-700);
-      text-decoration: none;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      font-size: 0.875rem;
-      transition: background-color 0.2s;
+      background-color: white;
     }
 
     .btn-secondary:hover {
@@ -132,11 +216,18 @@
 
     .features-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
       font-size: 0.875rem;
       color: var(--gray-700);
-      margin-top: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    @media (min-width: 480px) {
+      .features-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
     }
 
     .features-grid ul {
@@ -155,15 +246,36 @@
     .hero-image {
       display: flex;
       justify-content: center;
+      order: -1;
+    }
+
+    @media (min-width: 768px) {
+      .hero-image {
+        order: 0;
+      }
     }
 
     .image-wrapper {
       position: relative;
-      width: 18rem;
-      height: 18rem;
+      width: 14rem;
+      height: 14rem;
+    }
+
+    @media (min-width: 480px) {
+      .image-wrapper {
+        width: 16rem;
+        height: 16rem;
+      }
     }
 
     @media (min-width: 768px) {
+      .image-wrapper {
+        width: 18rem;
+        height: 18rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
       .image-wrapper {
         width: 20rem;
         height: 20rem;
@@ -191,7 +303,13 @@
     /* Roadmap Section */
     .roadmap {
       background-color: white;
-      padding: 4rem 0;
+      padding: 3rem 0;
+    }
+
+    @media (min-width: 768px) {
+      .roadmap {
+        padding: 4rem 0;
+      }
     }
 
     @media (min-width: 1024px) {
@@ -203,25 +321,46 @@
     .section-header {
       text-align: center;
       max-width: 48rem;
-      margin: 0 auto 3rem;
+      margin: 0 auto 2rem;
+      padding: 0 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .section-header {
+        margin-bottom: 3rem;
+      }
     }
 
     .section-header h2 {
-      font-size: 2rem;
+      font-size: 1.75rem;
       font-weight: bold;
       color: var(--primary-900);
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+      .section-header h2 {
+        font-size: 2rem;
+      }
     }
 
     @media (min-width: 768px) {
       .section-header h2 {
         font-size: 2.25rem;
+        margin-bottom: 1rem;
       }
     }
 
     .section-header p {
       color: var(--gray-700);
-      font-size: 1rem;
+      font-size: 0.9375rem;
+      line-height: 1.7;
+    }
+
+    @media (min-width: 640px) {
+      .section-header p {
+        font-size: 1rem;
+      }
     }
 
     @media (min-width: 768px) {
@@ -232,12 +371,19 @@
 
     .roadmap-grid {
       display: grid;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 640px) {
       .roadmap-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .roadmap-grid {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
 
@@ -250,13 +396,28 @@
 
     .roadmap-card {
       border-radius: 1rem;
-      padding: 1.5rem;
+      padding: 1.25rem;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    @media (min-width: 768px) {
+      .roadmap-card {
+        padding: 1.5rem;
+      }
+    }
+
+    .roadmap-card:hover {
+      transform: translateY(-2px);
     }
 
     .roadmap-card.basic {
       background-color: var(--sand-50);
       border: 1px solid var(--sand-200);
+    }
+
+    .roadmap-card.basic:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
     }
 
     .roadmap-card.highlight {
@@ -265,12 +426,16 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
+    .roadmap-card.highlight:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
       padding: 0.25rem 0.75rem;
       border-radius: 9999px;
-      font-size: 0.6875rem;
+      font-size: 0.625rem;
       font-weight: 600;
       background-color: white;
       color: var(--primary-700);
@@ -278,10 +443,23 @@
       margin-bottom: 0.75rem;
     }
 
+    @media (min-width: 640px) {
+      .badge {
+        font-size: 0.6875rem;
+      }
+    }
+
     .roadmap-card h3 {
-      font-size: 1.125rem;
+      font-size: 1rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    @media (min-width: 640px) {
+      .roadmap-card h3 {
+        font-size: 1.125rem;
+      }
     }
 
     .roadmap-card.basic h3 {
@@ -293,15 +471,29 @@
     }
 
     .roadmap-card p {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       color: var(--gray-700);
       margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 640px) {
+      .roadmap-card p {
+        font-size: 0.875rem;
+      }
     }
 
     .roadmap-card ul {
       list-style: none;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    @media (min-width: 640px) {
+      .roadmap-card ul {
+        font-size: 0.875rem;
+      }
     }
 
     .roadmap-card li {
@@ -312,7 +504,13 @@
     .pricing {
       background-color: var(--sand-50);
       border-top: 1px solid var(--sand-200);
-      padding: 4rem 0;
+      padding: 3rem 0;
+    }
+
+    @media (min-width: 768px) {
+      .pricing {
+        padding: 4rem 0;
+      }
     }
 
     @media (min-width: 1024px) {
@@ -324,7 +522,14 @@
     .pricing-header {
       text-align: center;
       max-width: 42rem;
-      margin: 0 auto 2.5rem;
+      margin: 0 auto 2rem;
+      padding: 0 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .pricing-header {
+        margin-bottom: 2.5rem;
+      }
     }
 
     .pricing-header h3 {
@@ -332,6 +537,13 @@
       font-weight: bold;
       color: var(--primary-900);
       margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    @media (min-width: 640px) {
+      .pricing-header h3 {
+        font-size: 1.625rem;
+      }
     }
 
     @media (min-width: 768px) {
@@ -342,7 +554,14 @@
 
     .pricing-header p {
       color: var(--gray-700);
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
+      line-height: 1.7;
+    }
+
+    @media (min-width: 640px) {
+      .pricing-header p {
+        font-size: 0.875rem;
+      }
     }
 
     @media (min-width: 768px) {
@@ -353,12 +572,13 @@
 
     .pricing-grid {
       display: grid;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     @media (min-width: 768px) {
       .pricing-grid {
         grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
       }
     }
 
@@ -371,14 +591,29 @@
     .pricing-card {
       background-color: white;
       border-radius: 1rem;
-      padding: 1.5rem;
+      padding: 1.25rem;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
       display: flex;
       flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    @media (min-width: 768px) {
+      .pricing-card {
+        padding: 1.5rem;
+      }
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-2px);
     }
 
     .pricing-card.basic {
       border: 1px solid var(--sand-200);
+    }
+
+    .pricing-card.basic:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
     }
 
     .pricing-card.featured {
@@ -389,15 +624,23 @@
       overflow: hidden;
     }
 
+    .pricing-card.featured:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    }
+
     .pricing-card.enterprise {
       border: 1px solid var(--primary-500);
+    }
+
+    .pricing-card.enterprise:hover {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
     }
 
     .featured-badge {
       position: absolute;
       top: 1rem;
       right: 1rem;
-      font-size: 0.6875rem;
+      font-size: 0.625rem;
       padding: 0.25rem 0.5rem;
       border-radius: 9999px;
       background-color: var(--primary-600);
@@ -405,10 +648,22 @@
       font-weight: 600;
     }
 
+    @media (min-width: 640px) {
+      .featured-badge {
+        font-size: 0.6875rem;
+      }
+    }
+
     .pricing-card h4 {
-      font-size: 1.125rem;
+      font-size: 1rem;
       font-weight: 600;
       margin-bottom: 0.25rem;
+    }
+
+    @media (min-width: 640px) {
+      .pricing-card h4 {
+        font-size: 1.125rem;
+      }
     }
 
     .pricing-card.basic h4,
@@ -421,8 +676,15 @@
     }
 
     .price {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    @media (min-width: 640px) {
+      .price {
+        font-size: 0.875rem;
+      }
     }
 
     .pricing-card.basic .price,
@@ -435,16 +697,30 @@
     }
 
     .pricing-card > p {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       color: var(--gray-700);
       margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 640px) {
+      .pricing-card > p {
+        font-size: 0.875rem;
+      }
     }
 
     .pricing-card ul {
       list-style: none;
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       color: var(--gray-700);
       flex: 1;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 640px) {
+      .pricing-card ul {
+        font-size: 0.875rem;
+      }
     }
 
     .pricing-card li {
@@ -453,11 +729,19 @@
 
     .pricing-footer {
       padding-top: 1rem;
+      margin-top: auto;
     }
 
     .pricing-footer span {
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    @media (min-width: 640px) {
+      .pricing-footer span {
+        font-size: 0.75rem;
+      }
     }
 
     .pricing-card.featured .pricing-footer span {
@@ -672,15 +956,3 @@
           <ul>
             <li>• Múltiples sedes / locaciones</li>
             <li>• Personalizaciones a medida</li>
-            <li>• Analytics avanzados y reportes</li>
-            <li>• Funcionalidades de todas las etapas</li>
-          </ul>
-          <div class="pricing-footer">
-            <span>Incluye soporte y acompañamiento cercano.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</body>
-</html>
