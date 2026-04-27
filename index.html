@@ -1,958 +1,1058 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShalaFlow - Sistema para espacios de movimiento</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-      line-height: 1.6;
-      color: #333;
-    }
-
-    :root {
-      --primary-50: #f8f7ef;
-      --primary-100: #f0eedf;
-      --primary-200: #e0dfb9;
-      --primary-500: #a9b44f;
-      --primary-600: #8e9b3f;
-      --primary-700: #6f7832;
-      --primary-800: #5f6431;
-      --primary-900: #39401e;
-      --sand-50: #faf7f1;
-      --sand-100: #faf7f1;
-      --sand-200: #f3e8d7;
-      --sand-300: #e9d6b7;
-      --gray-600: #4b5563;
-      --gray-700: #374151;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
-
-    @media (min-width: 640px) {
-      .container {
-        padding: 0 1.5rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .container {
-        padding: 0 2rem;
-      }
-    }
-
-    /* Hero Section */
-    .hero {
-      background-color: var(--sand-100);
-      padding: 2rem 0;
-    }
-
-    @media (min-width: 640px) {
-      .hero {
-        padding: 3rem 0;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .hero {
-        padding: 4rem 0;
-      }
-    }
-
-    .hero-grid {
-      display: grid;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    @media (min-width: 768px) {
-      .hero-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 2.5rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .hero-grid {
-        gap: 3rem;
-      }
-    }
-
-    .hero-content {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    @media (min-width: 640px) {
-      .hero-content {
-        gap: 1.25rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .hero-content {
-        gap: 1.5rem;
-      }
-    }
-
-    .overline {
-      font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--primary-600);
-    }
-
-    @media (min-width: 640px) {
-      .overline {
-        font-size: 0.75rem;
-        letter-spacing: 0.25em;
-      }
-    }
-
-    .hero h1 {
-      font-size: 1.875rem;
-      font-weight: bold;
-      color: var(--primary-800);
-      line-height: 1.2;
-    }
-
-    @media (min-width: 640px) {
-      .hero h1 {
-        font-size: 2.25rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .hero h1 {
-        font-size: 3rem;
-      }
-    }
-
-    .hero h1 span {
-      color: var(--primary-500);
-    }
-
-    .hero-description {
-      font-size: 0.9375rem;
-      color: var(--gray-700);
-      line-height: 1.7;
-    }
-
-    @media (min-width: 640px) {
-      .hero-description {
-        font-size: 1rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .hero-description {
-        font-size: 1.125rem;
-      }
-    }
-
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    @media (min-width: 480px) {
-      .button-group {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
-    }
-
-    .btn-primary, .btn-secondary {
-      padding: 0.75rem 1.5rem;
-      text-decoration: none;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      font-size: 0.875rem;
-      transition: all 0.2s;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background-color: var(--primary-600);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-700);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      border: 1px solid var(--primary-200);
-      color: var(--primary-700);
-      background-color: white;
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--primary-50);
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-      font-size: 0.875rem;
-      color: var(--gray-700);
-      margin-top: 0.5rem;
-    }
-
-    @media (min-width: 480px) {
-      .features-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-    }
-
-    .features-grid ul {
-      list-style: none;
-    }
-
-    .features-grid li {
-      margin-bottom: 0.25rem;
-    }
-
-    .features-grid .small {
-      font-size: 0.8125rem;
-      color: var(--gray-600);
-    }
-
-    .hero-image {
-      display: flex;
-      justify-content: center;
-      order: -1;
-    }
-
-    @media (min-width: 768px) {
-      .hero-image {
-        order: 0;
-      }
-    }
-
-    .image-wrapper {
-      position: relative;
-      width: 14rem;
-      height: 14rem;
-    }
-
-    @media (min-width: 480px) {
-      .image-wrapper {
-        width: 16rem;
-        height: 16rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .image-wrapper {
-        width: 18rem;
-        height: 18rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .image-wrapper {
-        width: 20rem;
-        height: 20rem;
-      }
-    }
-
-    .gradient-circle {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary-200), var(--sand-300), var(--primary-500));
-      opacity: 0.8;
-    }
-
-    .logo-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.15));
-    }
-
-    /* Roadmap Section */
-    .roadmap {
-      background-color: white;
-      padding: 3rem 0;
-    }
-
-    @media (min-width: 768px) {
-      .roadmap {
-        padding: 4rem 0;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .roadmap {
-        padding: 5rem 0;
-      }
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 48rem;
-      margin: 0 auto 2rem;
-      padding: 0 1rem;
-    }
-
-    @media (min-width: 768px) {
-      .section-header {
-        margin-bottom: 3rem;
-      }
-    }
-
-    .section-header h2 {
-      font-size: 1.75rem;
-      font-weight: bold;
-      color: var(--primary-900);
-      margin-bottom: 0.75rem;
-    }
-
-    @media (min-width: 640px) {
-      .section-header h2 {
-        font-size: 2rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .section-header h2 {
-        font-size: 2.25rem;
-        margin-bottom: 1rem;
-      }
-    }
-
-    .section-header p {
-      color: var(--gray-700);
-      font-size: 0.9375rem;
-      line-height: 1.7;
-    }
-
-    @media (min-width: 640px) {
-      .section-header p {
-        font-size: 1rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .section-header p {
-        font-size: 1.125rem;
-      }
-    }
-
-    .roadmap-grid {
-      display: grid;
-      gap: 1.25rem;
-    }
-
-    @media (min-width: 640px) {
-      .roadmap-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .roadmap-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (min-width: 1280px) {
-      .roadmap-grid {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 2rem;
-      }
-    }
-
-    .roadmap-card {
-      border-radius: 1rem;
-      padding: 1.25rem;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    @media (min-width: 768px) {
-      .roadmap-card {
-        padding: 1.5rem;
-      }
-    }
-
-    .roadmap-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .roadmap-card.basic {
-      background-color: var(--sand-50);
-      border: 1px solid var(--sand-200);
-    }
-
-    .roadmap-card.basic:hover {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    .roadmap-card.highlight {
-      background-color: var(--primary-50);
-      border: 1px solid var(--primary-200);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .roadmap-card.highlight:hover {
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.625rem;
-      font-weight: 600;
-      background-color: white;
-      color: var(--primary-700);
-      border: 1px solid var(--sand-200);
-      margin-bottom: 0.75rem;
-    }
-
-    @media (min-width: 640px) {
-      .badge {
-        font-size: 0.6875rem;
-      }
-    }
-
-    .roadmap-card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-    }
-
-    @media (min-width: 640px) {
-      .roadmap-card h3 {
-        font-size: 1.125rem;
-      }
-    }
-
-    .roadmap-card.basic h3 {
-      color: var(--primary-800);
-    }
-
-    .roadmap-card.highlight h3 {
-      color: var(--primary-900);
-    }
-
-    .roadmap-card p {
-      font-size: 0.8125rem;
-      color: var(--gray-700);
-      margin-bottom: 0.75rem;
-      line-height: 1.6;
-    }
-
-    @media (min-width: 640px) {
-      .roadmap-card p {
-        font-size: 0.875rem;
-      }
-    }
-
-    .roadmap-card ul {
-      list-style: none;
-      font-size: 0.8125rem;
-      color: var(--gray-700);
-      line-height: 1.6;
-    }
-
-    @media (min-width: 640px) {
-      .roadmap-card ul {
-        font-size: 0.875rem;
-      }
-    }
-
-    .roadmap-card li {
-      margin-bottom: 0.375rem;
-    }
-
-    /* Pricing Section */
-    .pricing {
-      background-color: var(--sand-50);
-      border-top: 1px solid var(--sand-200);
-      padding: 3rem 0;
-    }
-
-    @media (min-width: 768px) {
-      .pricing {
-        padding: 4rem 0;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .pricing {
-        padding: 5rem 0;
-      }
-    }
-
-    .pricing-header {
-      text-align: center;
-      max-width: 42rem;
-      margin: 0 auto 2rem;
-      padding: 0 1rem;
-    }
-
-    @media (min-width: 768px) {
-      .pricing-header {
-        margin-bottom: 2.5rem;
-      }
-    }
-
-    .pricing-header h3 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--primary-900);
-      margin-bottom: 0.75rem;
-      line-height: 1.3;
-    }
-
-    @media (min-width: 640px) {
-      .pricing-header h3 {
-        font-size: 1.625rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .pricing-header h3 {
-        font-size: 1.875rem;
-      }
-    }
-
-    .pricing-header p {
-      color: var(--gray-700);
-      font-size: 0.8125rem;
-      line-height: 1.7;
-    }
-
-    @media (min-width: 640px) {
-      .pricing-header p {
-        font-size: 0.875rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .pricing-header p {
-        font-size: 1rem;
-      }
-    }
-
-    .pricing-grid {
-      display: grid;
-      gap: 1.25rem;
-    }
-
-    @media (min-width: 768px) {
-      .pricing-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .pricing-grid {
-        gap: 2rem;
-      }
-    }
-
-    .pricing-card {
-      background-color: white;
-      border-radius: 1rem;
-      padding: 1.25rem;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    @media (min-width: 768px) {
-      .pricing-card {
-        padding: 1.5rem;
-      }
-    }
-
-    .pricing-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .pricing-card.basic {
-      border: 1px solid var(--sand-200);
-    }
-
-    .pricing-card.basic:hover {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    .pricing-card.featured {
-      background-color: var(--primary-50);
-      border: 1px solid var(--primary-200);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pricing-card.featured:hover {
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-    }
-
-    .pricing-card.enterprise {
-      border: 1px solid var(--primary-500);
-    }
-
-    .pricing-card.enterprise:hover {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    .featured-badge {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 0.625rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 9999px;
-      background-color: var(--primary-600);
-      color: white;
-      font-weight: 600;
-    }
-
-    @media (min-width: 640px) {
-      .featured-badge {
-        font-size: 0.6875rem;
-      }
-    }
-
-    .pricing-card h4 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    @media (min-width: 640px) {
-      .pricing-card h4 {
-        font-size: 1.125rem;
-      }
-    }
-
-    .pricing-card.basic h4,
-    .pricing-card.enterprise h4 {
-      color: var(--primary-800);
-    }
-
-    .pricing-card.featured h4 {
-      color: var(--primary-900);
-    }
-
-    .price {
-      font-size: 0.8125rem;
-      margin-bottom: 0.75rem;
-      font-weight: 500;
-    }
-
-    @media (min-width: 640px) {
-      .price {
-        font-size: 0.875rem;
-      }
-    }
-
-    .pricing-card.basic .price,
-    .pricing-card.enterprise .price {
-      color: var(--gray-600);
-    }
-
-    .pricing-card.featured .price {
-      color: var(--gray-700);
-    }
-
-    .pricing-card > p {
-      font-size: 0.8125rem;
-      color: var(--gray-700);
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
-
-    @media (min-width: 640px) {
-      .pricing-card > p {
-        font-size: 0.875rem;
-      }
-    }
-
-    .pricing-card ul {
-      list-style: none;
-      font-size: 0.8125rem;
-      color: var(--gray-700);
-      flex: 1;
-      line-height: 1.6;
-    }
-
-    @media (min-width: 640px) {
-      .pricing-card ul {
-        font-size: 0.875rem;
-      }
-    }
-
-    .pricing-card li {
-      margin-bottom: 0.375rem;
-    }
-
-    .pricing-footer {
-      padding-top: 1rem;
-      margin-top: auto;
-    }
-
-    .pricing-footer span {
-      font-size: 0.6875rem;
-      color: var(--gray-600);
-      line-height: 1.5;
-    }
-
-    @media (min-width: 640px) {
-      .pricing-footer span {
-        font-size: 0.75rem;
-      }
-    }
-
-    .pricing-card.featured .pricing-footer span {
-      color: var(--gray-600);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expolibro — Reservá tu libro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:    #F5C23A;
+  --gold2:   #E8A020;
+  --gold-bg: rgba(245,194,58,0.11);
+  --red:     #C0392B;
+  --teal:    #1A7A6E;
+  --ink:     #0B0B0B;
+  --dark:    #111111;
+  --card:    #181818;
+  --card2:   #1E1E1E;
+  --border:  #2A2A2A;
+  --text:    #DCDCDC;
+  --muted:   #6E6E6E;
+  --white:   #F8F5EE;
+  --wsp:     #25D366;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+
+/* ─ NAV ─ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 52px;
+  background:rgba(11,11,11,0.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);letter-spacing:0.01em}
+nav ul{list-style:none;display:flex;gap:32px}
+nav ul a{color:var(--muted);text-decoration:none;font-size:0.84rem;letter-spacing:0.03em;transition:color .2s}
+nav ul a:hover{color:var(--gold)}
+
+/* ─ QUOTES MARQUEE ─ */
+.marquee-wrap{
+  margin-top:56px;
+  background:var(--red);
+  padding:11px 0;
+  overflow:hidden;
+  white-space:nowrap;
+  border-bottom:2px solid #8B1A10;
+}
+.marquee-track{
+  display:inline-block;
+  animation:scroll 90s linear infinite;
+}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item{
+  display:inline-block;
+  margin:0 56px;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:0.88rem;
+  color:rgba(255,255,255,0.92);
+  letter-spacing:0.01em;
+}
+.marquee-item strong{font-style:normal;font-weight:400;color:rgba(255,255,255,0.5);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;margin-left:10px}
+.marquee-sep{color:rgba(255,255,255,0.25);margin:0 4px}
+
+/* ─ HERO ─ */
+.hero{
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;padding:80px 52px 80px;gap:60px;
+  position:relative;overflow:hidden;
+  min-height:calc(88vh - 62px);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 70% at 60% 50%, rgba(44,28,0,0.95) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 40% at 10% 80%, rgba(26,122,110,0.08) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-content{position:relative;z-index:1}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(245,194,58,0.3);border-radius:100px;
+  padding:5px 14px;font-size:0.7rem;color:var(--gold);
+  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:22px;
+}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:block}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.8rem,4.8vw,4rem);
+  line-height:1.06;margin-bottom:16px;
+  color:var(--white);
+}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{color:var(--muted);font-size:0.97rem;line-height:1.78;margin-bottom:32px;max-width:400px}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--gold);color:var(--ink);
+  border:none;border-radius:8px;padding:13px 26px;
+  font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.9rem;
+  cursor:pointer;transition:all .22s;
+}
+.btn-primary:hover{background:#fde275;box-shadow:0 6px 24px rgba(245,194,58,0.35);transform:translateY(-2px)}
+
+.hero-visual{position:relative;z-index:1;display:flex;justify-content:center;align-items:center}
+
+/* ─ FEATURED BOOKS (3 in hero) ─ */
+.featured-books{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  width:100%;
+}
+.feat-book{
+  border-radius:8px;overflow:hidden;
+  border:1px solid rgba(245,194,58,0.12);
+  cursor:pointer;transition:all .28s;
+}
+.feat-book:hover{
+  border-color:rgba(245,194,58,0.45);
+  transform:translateY(-6px);
+  box-shadow:0 18px 45px rgba(0,0,0,0.7);
+}
+.feat-book svg{width:100%;display:block}
+.feat-label{
+  padding:10px 12px 12px;
+  background:var(--card);
+}
+.feat-title{font-family:'Playfair Display',serif;font-size:0.82rem;color:var(--white);margin-bottom:2px;line-height:1.2}
+.feat-author{font-size:0.7rem;color:var(--muted)}
+.feat-price{font-size:0.82rem;color:var(--gold);margin-top:6px}
+
+/* ─ HOW IT WORKS ─ */
+.how-outer{background:var(--ink);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.how{padding:72px 52px;max-width:1140px;margin:0 auto}
+.section-label{font-size:0.66rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:block}
+.section-title{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--white);margin-bottom:52px;font-weight:400}
+.how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.how-steps::before{
+  content:'';position:absolute;top:28px;left:calc(12.5% + 8px);right:calc(12.5% + 8px);
+  height:1px;background:linear-gradient(90deg, var(--border) 0%, rgba(245,194,58,0.18) 50%, var(--border) 100%);
+  z-index:0;
+}
+.how-step{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 20px;
+  position:relative;z-index:1;
+}
+.step-circle{
+  width:56px;height:56px;border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--card);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:22px;flex-shrink:0;
+  position:relative;
+  transition:border-color .3s,background .3s;
+}
+.how-step:hover .step-circle{border-color:rgba(245,194,58,0.45);background:rgba(245,194,58,0.06)}
+.step-circle svg{width:22px;height:22px}
+.step-n-sm{
+  position:absolute;top:-8px;right:-6px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--gold);color:var(--ink);
+  font-size:0.6rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  letter-spacing:0;
+}
+.how-step h3{font-family:'Playfair Display',serif;font-size:0.95rem;margin-bottom:8px;color:var(--white)}
+.how-step p{font-size:0.79rem;color:var(--muted);line-height:1.7;max-width:170px}
+
+/* ─ CATALOG ─ */
+.catalog{padding:64px 52px;background:var(--dark)}
+.catalog-head{max-width:1140px;margin:0 auto 32px}
+.catalog-head h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--white)}
+.catalog-head p{font-size:0.8rem;color:var(--muted);margin-top:4px}
+
+/* filter panel */
+.filter-panel{
+  max-width:1140px;margin:0 auto 28px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:20px 24px;
+  display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;
+}
+.filter-divider{width:1px;background:var(--border);align-self:stretch;flex-shrink:0}
+.filter-group{display:flex;flex-direction:column;gap:8px}
+.filter-label-sm{font-size:0.6rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--muted)}
+.pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{
+  padding:4px 12px;border-radius:100px;font-size:0.74rem;
+  border:1px solid var(--border);background:transparent;color:var(--muted);
+  cursor:pointer;transition:all .16s;font-family:'DM Sans',sans-serif;line-height:1.6;
+}
+.pill.on,.pill:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+
+/* sort + count row */
+.catalog-meta{max-width:1140px;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center}
+.catalog-count{font-size:0.78rem;color:var(--muted)}
+.sort-select{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:6px;padding:6px 12px;color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:0.78rem;
+  outline:none;cursor:pointer;
+}
+.sort-select option{background:var(--card)}
+
+.book-grid{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+/* ─ BOOK CARD ─ */
+.book-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;cursor:pointer;
+  transition:all .28s;display:flex;flex-direction:column;
+}
+.book-card:hover{
+  border-color:rgba(245,194,58,0.4);
+  transform:translateY(-6px);
+  box-shadow:0 22px 55px rgba(0,0,0,0.6);
+}
+.book-card.sold{cursor:default;opacity:0.46}
+.book-card.sold:hover{transform:none;box-shadow:none;border-color:var(--border)}
+.book-cover{position:relative;aspect-ratio:2/3;overflow:hidden}
+.book-cover svg{width:100%;height:100%;display:block}
+.badge{
+  position:absolute;top:10px;right:10px;
+  font-size:0.6rem;font-weight:500;padding:3px 9px;
+  border-radius:4px;letter-spacing:0.06em;text-transform:uppercase;
+}
+.badge.avail{background:var(--gold);color:var(--ink)}
+.badge.sold{background:#242424;color:#555}
+.badge.new{background:var(--teal);color:#fff}
+.book-info{padding:13px 14px 15px}
+.book-genre{font-size:0.64rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.book-title{font-family:'Playfair Display',serif;font-size:0.9rem;line-height:1.25;color:var(--white);margin-bottom:3px}
+.book-author{font-size:0.73rem;color:var(--muted);margin-bottom:10px}
+.book-footer{display:flex;align-items:center;justify-content:space-between}
+.book-price{font-size:0.97rem;color:var(--gold);font-weight:500}
+.book-cond{font-size:0.68rem;color:var(--muted)}
+.book-action{font-size:0.76rem;color:var(--gold);display:flex;align-items:center;gap:4px;transition:gap .2s}
+.book-card:hover .book-action{gap:8px}
+
+/* ─ FOOTER ─ */
+footer{
+  background:var(--dark);
+  border-top:1px solid var(--border);
+}
+.footer-main{
+  padding:52px 52px 36px;
+  max-width:1140px;margin:0 auto;
+  display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;
+}
+.footer-brand{}
+.footer-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.footer-logo-text{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold)}
+.footer-since{
+  display:inline-block;
+  font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(245,194,58,0.5);margin-bottom:14px;
+}
+.footer-brand p{font-size:0.79rem;color:var(--muted);line-height:1.72;max-width:260px}
+.footer-col h4{font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:9px}
+.footer-col ul a{font-size:0.82rem;color:#5A5A5A;text-decoration:none;transition:color .2s}
+.footer-col ul a:hover{color:var(--gold)}
+.footer-bottom{
+  border-top:1px solid var(--border);
+  padding:16px 52px;
+  display:flex;justify-content:space-between;align-items:center;
+  max-width:100%;
+}
+.footer-copy{font-size:0.72rem;color:#3A3A3A}
+.footer-tagline{font-size:0.72rem;color:#3A3A3A;font-family:'Playfair Display',serif;font-style:italic}
+
+/* ─ MODAL ─ */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--card2);border:1px solid #303030;
+  border-radius:14px;width:100%;max-width:500px;
+  padding:38px 40px;position:relative;
+  animation:up .28s ease;
+}
+@keyframes up{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-x{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;line-height:1;transition:color .2s}
+.modal-x:hover{color:var(--text)}
+.modal-book-row{
+  display:flex;gap:14px;align-items:center;
+  background:rgba(245,194,58,0.05);border:1px solid rgba(245,194,58,0.12);
+  border-radius:8px;padding:13px 15px;margin-bottom:26px;
+}
+.modal-thumb{width:44px;height:58px;border-radius:3px;overflow:hidden;flex-shrink:0}
+.modal-thumb svg{width:100%;height:100%}
+#mTitle{font-family:'Playfair Display',serif;font-size:0.92rem;color:var(--white)}
+#mAuthor{font-size:0.73rem;color:var(--muted);margin-top:2px}
+#mPrice{font-size:0.84rem;color:var(--gold);margin-top:4px}
+.modal h2{font-family:'Playfair Display',serif;font-size:1.35rem;margin-bottom:4px}
+.modal-sub{font-size:0.8rem;color:var(--muted);margin-bottom:22px}
+.fg{margin-bottom:13px}
+.fg label{display:block;font-size:0.73rem;color:var(--muted);letter-spacing:0.04em;margin-bottom:6px}
+.fg input,.fg select{
+  width:100%;background:var(--ink);border:1px solid var(--border);
+  border-radius:7px;padding:10px 13px;color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:0.87rem;
+  outline:none;transition:border-color .2s;appearance:none;
+}
+.fg input:focus,.fg select:focus{border-color:var(--gold)}
+.fg select option{background:var(--card)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* delivery options */
+.delivery-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.delivery-opt{
+  border:1px solid var(--border);border-radius:8px;
+  padding:12px 14px;cursor:pointer;transition:all .2s;
+  display:flex;flex-direction:column;gap:4px;
+}
+.delivery-opt:hover{border-color:var(--gold)}
+.delivery-opt.selected{border-color:var(--gold);background:var(--gold-bg)}
+.delivery-opt.selected-wsp{border-color:var(--wsp);background:rgba(37,211,102,0.07)}
+.delivery-title{font-size:0.82rem;color:var(--white);font-weight:500}
+.delivery-desc{font-size:0.72rem;color:var(--muted);line-height:1.4}
+
+.note{font-size:0.76rem;color:var(--muted);padding:10px 0 18px;border-top:1px solid var(--border);margin-top:4px}
+.note strong{color:var(--text)}
+.btn-confirm{
+  width:100%;background:var(--gold);color:var(--ink);
+  border:none;border-radius:8px;padding:13px;
+  font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.92rem;
+  cursor:pointer;transition:all .2s;
+}
+.btn-confirm:hover{background:#fde275;box-shadow:0 5px 18px rgba(245,194,58,0.3)}
+
+/* wsp button */
+.btn-wsp{
+  width:100%;background:var(--wsp);color:#fff;
+  border:none;border-radius:8px;padding:13px;
+  font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.92rem;
+  cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  text-decoration:none;margin-top:10px;
+}
+.btn-wsp:hover{background:#1eb857;box-shadow:0 5px 18px rgba(37,211,102,0.3)}
+
+/* success */
+.success{text-align:center;padding:10px 0}
+.ok-ring{width:58px;height:58px;border-radius:50%;background:rgba(245,194,58,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.success h3{font-family:'Playfair Display',serif;font-size:1.35rem;margin-bottom:8px}
+.success p{font-size:0.82rem;color:var(--muted);line-height:1.6;max-width:300px;margin:0 auto 20px}
+.code-box{background:var(--ink);border:1px dashed rgba(245,194,58,0.35);border-radius:8px;padding:12px 24px;display:inline-block;margin-bottom:20px}
+.code-box span{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);letter-spacing:0.1em}
+</style>
 </head>
 <body>
-  <!-- Hero Section -->
-  <div class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <!-- Texto principal -->
-        <div class="hero-content">
-          <p class="overline">Sistema para espacios de movimiento</p>
 
-          <h1>
-            Ordená tu shala,<br>
-            <span>sin perder la calma.</span>
-          </h1>
+<!-- ─ NAV ─ -->
+<nav>
+  <a class="logo" href="#">
+    <svg width="34" height="34" viewBox="0 0 42 42" fill="none">
+      <circle cx="21" cy="21" r="21" fill="#F5C23A"/>
+      <rect x="13" y="11" width="16" height="13" rx="1.5" fill="#181818"/>
+      <line x1="16" y1="15.5" x2="26" y2="15.5" stroke="#F5C23A" stroke-width="1.1" stroke-linecap="round" opacity="0.95"/>
+      <line x1="16" y1="18.5" x2="26" y2="18.5" stroke="#F5C23A" stroke-width="1.1" stroke-linecap="round" opacity="0.95"/>
+      <line x1="16" y1="21.5" x2="22" y2="21.5" stroke="#F5C23A" stroke-width="1.1" stroke-linecap="round" opacity="0.6"/>
+      <rect x="11" y="25" width="20" height="4" rx="1" fill="#060606" opacity="0.22"/>
+      <rect x="10" y="28" width="22" height="3" rx="1" fill="#060606" opacity="0.12"/>
+    </svg>
+    <span class="logo-text">Expolibro</span>
+  </a>
+  <ul>
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#como">Cómo funciona</a></li>
+    <li><a href="#">Contacto</a></li>
+  </ul>
+</nav>
 
-          <p class="hero-description">
-            ShalaFlow es un sistema de gestión pensado para shalas y estudios de yoga, pilates,
-            circo, kinesiología, animal flow y cualquier espacio donde el objetivo sea moverse
-            y no estar atado a planillas y administración. Organizá tu calendario, reservas,
-            alumnos y comunicación desde un solo lugar. A medida que el sistema crezca vamos a
-            invertir cada vez más en una buena comunidad entre espacios y profes, poniendo el
-            foco en fortalecer la comunidad real antes que sumar otra red social más.
-          </p>
+<!-- ─ QUOTES MARQUEE ─ -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="mtrack"></div>
+</div>
 
-          <div class="button-group">
-            <a href="/login" class="btn-primary">Entrar al panel</a>
-            <a href="/classes" class="btn-secondary">Ver calendario de clases</a>
-          </div>
+<!-- ─ HERITAGE BANNER ─ -->
+<div style="background:var(--ink);border-bottom:1px solid var(--border);padding:14px 52px;display:flex;align-items:center;justify-content:space-between">
+  <div style="display:flex;align-items:center;gap:32px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:36px;height:1px;background:rgba(245,194,58,0.3)"></div>
+      <span style="font-family:'Playfair Display',serif;font-size:0.78rem;color:rgba(245,194,58,0.6);letter-spacing:0.08em">Desde 1989</span>
+      <div style="width:36px;height:1px;background:rgba(245,194,58,0.3)"></div>
+    </div>
+    <span style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--white);font-style:italic;letter-spacing:0.01em">
+      37 años conectando lectores con libros en Villa María
+    </span>
+  </div>
+  <div style="display:flex;align-items:center;gap:20px">
+    <div style="text-align:right">
+      <span style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block">Ubicación</span>
+      <span style="font-size:0.8rem;color:var(--text)">Gral Paz 257, Villa María</span>
+    </div>
+    <div style="width:1px;height:28px;background:var(--border)"></div>
+    <div style="text-align:right">
+      <span style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block">Instagram</span>
+      <span style="font-size:0.8rem;color:var(--text)">@expolibro</span>
+    </div>
+  </div>
+</div>
 
-          <div class="features-grid">
-            <div>
-              <p style="font-weight: 600; margin-bottom: 0.25rem;">Para tu espacio</p>
-              <ul>
-                <li>• Agenda de clases y reservas</li>
-                <li>• Gestión de alumnos y roles</li>
-                <li>• Estadísticas de ocupación</li>
-              </ul>
-            </div>
-            <div>
-              <p style="font-weight: 600; margin-bottom: 0.25rem;">Para tu comunidad</p>
-              <ul>
-                <li>• Blog para maestros e instructores</li>
-                <li>• Clases online y presenciales</li>
-                <li>• Notificaciones claras y amables</li>
-                <li class="small">
-                  • Enfocado en hacer más fuerte la comunidad real de tu espacio, no en
-                  reemplazarla por una comunidad virtual.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+<!-- ─ HERO ─ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag"><span class="hero-tag-dot"></span>Villa María · Libros usados y nuevos</div>
+    <h1>Tu próximo libro<br>te está <em>esperando</em></h1>
+    <p class="hero-sub">Explorá el catálogo, reservá con tus datos y retirá en local o coordiná envío. Sin pagos online, sin complicaciones.</p>
+    <button class="btn-primary" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">
+      Ver catálogo
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7H12M7 2L12 7L7 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
 
-        <!-- Imagen -->
-        <div class="hero-image">
-          <div class="image-wrapper">
-            <div class="gradient-circle"></div>
-            <img src="/assets/shala-flow.png" alt="Logo ShalaFlow" class="logo-image" 
-                 onerror="this.style.display='none'">
-          </div>
+  <div class="hero-visual">
+    <div class="featured-books">
+
+      <!-- FEAT 1 · El Aleph -->
+      <div class="feat-book" onclick="openModal('El Aleph','Jorge Luis Borges','Literatura','$2.800','usado')">
+        <svg viewBox="0 0 160 220" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="f1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2E1600"/><stop offset="100%" stop-color="#0C0500"/></linearGradient></defs>
+          <rect width="160" height="220" fill="url(#f1)"/>
+          <rect width="14" height="220" fill="#1E0E00"/>
+          <line x1="0" y1="16" x2="14" y2="16" stroke="#F5C23A" stroke-width="0.8" opacity="0.55"/>
+          <line x1="0" y1="204" x2="14" y2="204" stroke="#F5C23A" stroke-width="0.8" opacity="0.55"/>
+          <rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.2)" stroke-width="1"/>
+          <circle cx="84" cy="96" r="46" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+          <circle cx="84" cy="96" r="32" fill="none" stroke="rgba(245,194,58,0.13)" stroke-width="0.8"/>
+          <circle cx="84" cy="96" r="18" fill="none" stroke="rgba(245,194,58,0.22)" stroke-width="1"/>
+          <circle cx="84" cy="96" r="6" fill="rgba(245,194,58,0.22)"/>
+          <text x="84" y="166" text-anchor="middle" fill="#F5C23A" font-size="12" font-family="Georgia,serif" opacity="0.9" letter-spacing="2">EL ALEPH</text>
+          <text x="84" y="182" text-anchor="middle" fill="rgba(245,194,58,0.42)" font-size="7.5" font-family="Georgia,serif" letter-spacing="1.5">BORGES</text>
+        </svg>
+        <div class="feat-label">
+          <p class="feat-title">El Aleph</p>
+          <p class="feat-author">Jorge Luis Borges</p>
+          <p class="feat-price">$2.800</p>
         </div>
       </div>
+
+      <!-- FEAT 2 · Rayuela -->
+      <div class="feat-book" onclick="openModal('Rayuela','Julio Cortázar','Literatura','$3.200','usado')">
+        <svg viewBox="0 0 160 220" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="f2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1E0010"/><stop offset="100%" stop-color="#080004"/></linearGradient></defs>
+          <rect width="160" height="220" fill="url(#f2)"/>
+          <rect width="14" height="220" fill="#150008"/>
+          <line x1="0" y1="16" x2="14" y2="16" stroke="#F5C23A" stroke-width="0.8" opacity="0.5"/>
+          <line x1="0" y1="204" x2="14" y2="204" stroke="#F5C23A" stroke-width="0.8" opacity="0.5"/>
+          <rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.16)" stroke-width="1"/>
+          <rect x="56" y="32" width="52" height="28" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+          <line x1="82" y1="32" x2="82" y2="60" stroke="rgba(245,194,58,0.1)" stroke-width="1"/>
+          <rect x="56" y="63" width="52" height="24" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+          <rect x="56" y="90" width="24" height="24" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+          <rect x="84" y="90" width="24" height="24" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+          <rect x="56" y="117" width="52" height="22" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+          <text x="84" y="162" text-anchor="middle" fill="#F5C23A" font-size="12" font-family="Georgia,serif" opacity="0.9" letter-spacing="2.5">RAYUELA</text>
+          <text x="84" y="178" text-anchor="middle" fill="rgba(245,194,58,0.42)" font-size="7.5" font-family="Georgia,serif" letter-spacing="1.5">CORTÁZAR</text>
+        </svg>
+        <div class="feat-label">
+          <p class="feat-title">Rayuela</p>
+          <p class="feat-author">Julio Cortázar</p>
+          <p class="feat-price">$3.200</p>
+        </div>
+      </div>
+
+      <!-- FEAT 3 · El Principito -->
+      <div class="feat-book" onclick="openModal('El Principito','Antoine de Saint-Exupéry','Infantil','$1.800','usado')">
+        <svg viewBox="0 0 160 220" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="f3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#001828"/><stop offset="100%" stop-color="#00080F"/></linearGradient></defs>
+          <rect width="160" height="220" fill="url(#f3)"/>
+          <rect width="14" height="220" fill="#001018"/>
+          <line x1="0" y1="16" x2="14" y2="16" stroke="#F5C23A" stroke-width="0.8" opacity="0.5"/>
+          <line x1="0" y1="204" x2="14" y2="204" stroke="#F5C23A" stroke-width="0.8" opacity="0.5"/>
+          <rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.15)" stroke-width="1"/>
+          <circle cx="50" cy="44" r="1.4" fill="#F5C23A" opacity="0.5"/>
+          <circle cx="124" cy="32" r="1.8" fill="#F5C23A" opacity="0.4"/>
+          <circle cx="136" cy="68" r="1.1" fill="#F5C23A" opacity="0.4"/>
+          <circle cx="30" cy="88" r="1.4" fill="#F5C23A" opacity="0.3"/>
+          <circle cx="128" cy="104" r="0.9" fill="#F5C23A" opacity="0.35"/>
+          <circle cx="62" cy="40" r="0.9" fill="#F5C23A" opacity="0.3"/>
+          <ellipse cx="84" cy="96" rx="36" ry="11" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1.1"/>
+          <circle cx="84" cy="80" r="22" fill="none" stroke="rgba(245,194,58,0.22)" stroke-width="1"/>
+          <circle cx="84" cy="80" r="14" fill="rgba(245,194,58,0.05)"/>
+          <text x="84" y="150" text-anchor="middle" fill="#F5C23A" font-size="10" font-family="Georgia,serif" opacity="0.9" letter-spacing="2">EL PRINCIPITO</text>
+          <text x="84" y="166" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">SAINT-EXUPÉRY</text>
+        </svg>
+        <div class="feat-label">
+          <p class="feat-title">El Principito</p>
+          <p class="feat-author">Antoine de Saint-Exupéry</p>
+          <p class="feat-price">$1.800</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─ HOW IT WORKS ─ -->
+<div class="how-outer">
+<section id="como" class="how">
+  <span class="section-label">Proceso de reserva</span>
+  <p class="section-title">Reservar un libro tarda menos de dos minutos</p>
+  <div class="how-steps">
+
+    <div class="how-step">
+      <div class="step-circle">
+        <span class="step-n-sm">1</span>
+        <svg viewBox="0 0 22 22" fill="none" stroke="#F5C23A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="2" width="16" height="18" rx="2"/>
+          <line x1="7" y1="7" x2="15" y2="7"/><line x1="7" y1="11" x2="15" y2="11"/><line x1="7" y1="15" x2="11" y2="15"/>
+        </svg>
+      </div>
+      <h3>Elegí tu libro</h3>
+      <p>Navegá el catálogo por género, autor o precio y encontrá lo que buscás.</p>
+    </div>
+
+    <div class="how-step">
+      <div class="step-circle">
+        <span class="step-n-sm">2</span>
+        <svg viewBox="0 0 22 22" fill="none" stroke="#F5C23A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="18" height="13" rx="2"/>
+          <line x1="2" y1="9" x2="20" y2="9"/>
+          <rect x="5" y="12" width="5" height="3" rx="0.5" fill="rgba(245,194,58,0.25)" stroke="none"/>
+          <line x1="13" y1="13.5" x2="17" y2="13.5"/>
+        </svg>
+      </div>
+      <h3>Completá el formulario</h3>
+      <p>Ingresá tu nombre, DNI, email y teléfono. Sin registro ni pago anticipado.</p>
+    </div>
+
+    <div class="how-step">
+      <div class="step-circle">
+        <span class="step-n-sm">3</span>
+        <svg viewBox="0 0 22 22" fill="none" stroke="#F5C23A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H7l-4 3V5a1 1 0 0 1 1-1z"/>
+          <line x1="8" y1="9" x2="14" y2="9"/><line x1="8" y1="12" x2="11" y2="12"/>
+        </svg>
+      </div>
+      <h3>Recibís confirmación</h3>
+      <p>Te enviamos un email con tu código de reserva único al instante.</p>
+    </div>
+
+    <div class="how-step">
+      <div class="step-circle">
+        <span class="step-n-sm">4</span>
+        <svg viewBox="0 0 22 22" fill="none" stroke="#F5C23A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-6 9 6v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
+          <polyline points="9,22 9,12 13,12 13,22"/>
+        </svg>
+      </div>
+      <h3>Retirá en 5 días</h3>
+      <p>Pasá por Gral Paz 257 o coordiná envío a domicilio por WhatsApp.</p>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- ─ CATALOG ─ -->
+<section id="catalogo" class="catalog">
+  <div class="catalog-head">
+    <h2>Catálogo</h2>
+    <p>Filtrá por género, estado o disponibilidad para encontrar tu próxima lectura</p>
+  </div>
+
+  <!-- FILTER PANEL -->
+  <div class="filter-panel">
+
+    <div class="filter-group">
+      <span class="filter-label-sm">Género</span>
+      <div class="pills" id="pills-genero">
+        <button class="pill on" data-filter="genero" data-val="todos">Todos</button>
+        <button class="pill" data-filter="genero" data-val="Literatura">Literatura</button>
+        <button class="pill" data-filter="genero" data-val="Historia">Historia</button>
+        <button class="pill" data-filter="genero" data-val="Filosofía">Filosofía</button>
+        <button class="pill" data-filter="genero" data-val="Psicología">Psicología</button>
+        <button class="pill" data-filter="genero" data-val="Economía">Economía</button>
+        <button class="pill" data-filter="genero" data-val="Ciencias Sociales">Cs. Sociales</button>
+        <button class="pill" data-filter="genero" data-val="Derecho">Derecho</button>
+        <button class="pill" data-filter="genero" data-val="Ciencias">Ciencias</button>
+        <button class="pill" data-filter="genero" data-val="Infantil">Infantil</button>
+        <button class="pill" data-filter="genero" data-val="Poesía">Poesía</button>
+        <button class="pill" data-filter="genero" data-val="Arte">Arte &amp; Diseño</button>
+        <button class="pill" data-filter="genero" data-val="Autoayuda">Autoayuda</button>
+        <button class="pill" data-filter="genero" data-val="Diccionario">Diccionarios</button>
+      </div>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="filter-group">
+        <span class="filter-label-sm">Estado</span>
+        <div class="pills" id="pills-estado">
+          <button class="pill on" data-filter="estado" data-val="todos">Todos</button>
+          <button class="pill" data-filter="estado" data-val="usado">Usado</button>
+          <button class="pill" data-filter="estado" data-val="nuevo">Nuevo</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label-sm">Disponibilidad</span>
+        <div class="pills" id="pills-disp">
+          <button class="pill on" data-filter="disp" data-val="todos">Todos</button>
+          <button class="pill" data-filter="disp" data-val="disponible">Solo disponibles</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="catalog-meta">
+    <span class="catalog-count" id="catalog-count">Mostrando 12 libros</span>
+    <select class="sort-select" id="sort-select">
+      <option value="default">Ordenar: relevancia</option>
+      <option value="precio-asc">Precio: menor a mayor</option>
+      <option value="precio-desc">Precio: mayor a menor</option>
+      <option value="az">Título: A → Z</option>
+    </select>
+  </div>
+
+  <div class="book-grid" id="book-grid"></div>
+</section>
+
+<!-- ─ FOOTER ─ -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-logo-row">
+        <svg width="28" height="28" viewBox="0 0 42 42" fill="none"><circle cx="21" cy="21" r="21" fill="#F5C23A"/><rect x="13" y="11" width="16" height="13" rx="1.5" fill="#181818"/><line x1="16" y1="15.5" x2="26" y2="15.5" stroke="#F5C23A" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/><line x1="16" y1="18.5" x2="26" y2="18.5" stroke="#F5C23A" stroke-width="1.1" stroke-linecap="round" opacity="0.9"/></svg>
+        <span class="footer-logo-text">Expolibro</span>
+      </div>
+      <span class="footer-since">Librería · Est. 1989 · 37 años</span>
+      <p>Una librería con historia en el corazón de Villa María. Encontrá libros usados y nuevos, reservá online y retirá cuando puedas.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navegación</h4>
+      <ul>
+        <li><a href="#catalogo">Catálogo</a></li>
+        <li><a href="#como">Cómo reservar</a></li>
+        <li><a href="#">Géneros disponibles</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="#">Gral Paz 257, Villa María</a></li>
+        <li><a href="https://wa.me/5493534262857" target="_blank">WhatsApp: +54 9 353 426-2857</a></li>
+        <li><a href="https://instagram.com/expolibro" target="_blank">@expolibro</a></li>
+        <li><a href="https://instagram.com/librosusados.expolibro" target="_blank">@librosusados.expolibro</a></li>
+      </ul>
     </div>
   </div>
 
-  <!-- Roadmap Section -->
-  <section class="roadmap">
-    <div class="container">
-      <div class="section-header">
-        <h2>Roadmap de ShalaFlow</h2>
-        <p>
-          Cinco etapas pensadas para acompañar el crecimiento de tu espacio:
-          desde ordenar el día a día hasta vender tus productos y experiencias online.
-        </p>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Expolibro · Villa María, Córdoba, Argentina</span>
+    <span class="footer-tagline">37 años de historias, una por cada libro</span>
+  </div>
+</footer>
+
+<!-- ─ MODAL ─ -->
+<div class="overlay" id="overlay" onclick="handleOverlay(event)">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">×</button>
+
+    <div id="fState">
+      <h2>Reservar libro</h2>
+      <p class="modal-sub">Ingresá tus datos para confirmar</p>
+
+      <div class="modal-book-row">
+        <div class="modal-thumb">
+          <svg viewBox="0 0 44 58" fill="none"><rect x="2" y="2" width="40" height="54" rx="2" fill="#1A1000" stroke="#F5C23A" stroke-width="0.8" opacity="0.6"/><line x1="8" y1="18" x2="36" y2="18" stroke="#F5C23A" stroke-width="0.7" opacity="0.4"/><line x1="8" y1="25" x2="36" y2="25" stroke="#F5C23A" stroke-width="0.7" opacity="0.4"/><line x1="8" y1="32" x2="28" y2="32" stroke="#F5C23A" stroke-width="0.7" opacity="0.4"/></svg>
+        </div>
+        <div>
+          <p id="mTitle">—</p>
+          <p id="mAuthor">—</p>
+          <p id="mPrice">—</p>
+        </div>
       </div>
 
-      <div class="roadmap-grid">
-        <!-- Etapa 1 -->
-        <div class="roadmap-card basic">
-          <span class="badge">Etapa 1 · Núcleo (MVP)</span>
-          <h3>Gestión básica sin fricción</h3>
-          <p>Lo esencial para que tu espacio funcione desde el primer día.</p>
-          <ul>
-            <li>• Backoffice web y mobile-friendly para profes</li>
-            <li>• Creación y gestión de horarios de clases</li>
-            <li>• Control de cupos y asistencia</li>
-            <li>• Blog informativo y detalles de clases</li>
-            <li>• Agenda de clases para alumnos</li>
-          </ul>
-        </div>
+      <div class="row2">
+        <div class="fg"><label>Nombre</label><input id="iNombre" type="text" placeholder="Juan Pérez"></div>
+        <div class="fg"><label>DNI</label><input id="iDni" type="text" placeholder="28.000.000"></div>
+      </div>
+      <div class="fg"><label>Email</label><input id="iEmail" type="email" placeholder="juan@email.com"></div>
+      <div class="fg"><label>Teléfono</label><input id="iTel" type="tel" placeholder="+54 353 000-0000"></div>
 
-        <!-- Etapa 2 -->
-        <div class="roadmap-card highlight">
-          <span class="badge">Etapa 2 · Automatización & Finanzas</span>
-          <h3>Cobros, pagos y balance del espacio</h3>
-          <p>Menos Excel, más claridad financiera. Todo dentro del mismo sistema.</p>
-          <ul>
-            <li>• Gestión de pagos de alumnos (clases, paquetes, membresías)</li>
-            <li>• Registro de pagos desde alumnos hacia el espacio</li>
-            <li>• Registro de pagos desde el espacio hacia maestros / instructores</li>
-            <li>• Panel de balance: ingresos, egresos y resumen por período</li>
-            <li>• Automatización básica de conciliación y estados de pago</li>
-            <li>• Integración con Mercado Pago como primer gateway</li>
-          </ul>
+      <div class="fg">
+        <label>¿Cómo querés recibir tu libro?</label>
+        <div class="delivery-opts">
+          <div class="delivery-opt selected" id="opt-local" onclick="selectDelivery('local')">
+            <span class="delivery-title">🏪 Retiro en local</span>
+            <span class="delivery-desc">Gral Paz 257, Villa María<br>5 días hábiles</span>
+          </div>
+          <div class="delivery-opt" id="opt-wsp" onclick="selectDelivery('wsp')">
+            <span class="delivery-title">📦 Envío a domicilio</span>
+            <span class="delivery-desc">Coordinás por WhatsApp<br>con el local</span>
+          </div>
         </div>
+      </div>
 
-        <!-- Etapa 3 -->
-        <div class="roadmap-card basic">
-          <span class="badge">Etapa 3 · Comunidad & Marketing</span>
-          <h3>Comunidad viva alrededor de tu espacio</h3>
-          <p>Herramientas para sostener el vínculo más allá de la clase.</p>
-          <ul>
-            <li>• Espacio de comunidad con chat interno</li>
-            <li>• Suscripción mensual a contenido premium (videoteca)</li>
-            <li>• Social media manager básico para Instagram</li>
-            <li>• Autenticación con Google, Instagram, Facebook</li>
-          </ul>
-        </div>
+      <p class="note">Tenés <strong>5 días hábiles</strong> para retirar o coordinar. La reserva no requiere pago anticipado.</p>
+      <button class="btn-confirm" id="btnConfirmar" onclick="confirmReserve()">Confirmar reserva</button>
+    </div>
 
-        <!-- Etapa 4 -->
-        <div class="roadmap-card highlight">
-          <span class="badge">Etapa 4 · Experiencias avanzadas</span>
-          <h3>Clases online y decisiones con datos</h3>
-          <p>Para espacios que quieren escalar y ofrecer experiencias híbridas completas.</p>
-          <ul>
-            <li>• Sala de videollamadas integrada para clases en vivo</li>
-            <li>• Panel de analytics (clases, alumnos, Instagram)</li>
-            <li>• Integración con Google Calendar</li>
-            <li>• Integración con Instagram para sincronizar contenidos</li>
-            <li>• Envío de notificaciones a través de la app, WhatsApp y email</li>
-          </ul>
+    <div id="sState" style="display:none">
+      <div class="success">
+        <div class="ok-ring">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13L10 18L21 8" stroke="#F5C23A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-
-        <!-- Etapa 5 -->
-        <div class="roadmap-card basic">
-          <span class="badge">Etapa 5 · Tienda & Ecommerce</span>
-          <h3>Vendé lo que tu espacio crea</h3>
-          <p>Una tienda integrada para vender productos, servicios y experiencias sin salir de ShalaFlow.</p>
-          <ul>
-            <li>• Catálogo de productos físicos y digitales</li>
-            <li>• Packs que combinan clases, talleres y productos</li>
-            <li>• Checkout integrado con medios de pago locales</li>
-            <li>• Gestión básica de stock y variantes</li>
-            <li>• Visibilidad directa desde la agenda y la app de alumnos</li>
-          </ul>
-        </div>
+        <h3>¡Reserva confirmada!</h3>
+        <p>Te enviamos los detalles por email. Tenés 5 días para retirar o coordinar envío.</p>
+        <div class="code-box"><span id="rCode">EXP-0000</span></div>
+        <button class="btn-confirm" onclick="closeModal()">Volver al catálogo</button>
+        <a id="wspLink" class="btn-wsp" href="#" target="_blank" style="display:none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Coordinar envío por WhatsApp
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- Pricing Section -->
-  <section class="pricing">
-    <div class="container">
-      <div class="pricing-header">
-        <h3>Pensado para espacios de todos los tamaños</h3>
-        <p>
-          Un modelo de precios simplificado, alineado con la realidad de los espacios de movimiento
-          en Argentina, listo para acompañar desde una sala pequeña hasta una red de sedes.
-        </p>
-      </div>
+<script>
+// ─ QUOTES ─
+const quotes = [
+  { text: "Los hombres como yo no deberían saber leer: hace sufrir demasiado.", author: "ERNESTO 'CHE' GUEVARA" },
+  { text: "Tengo la certeza de que en el futuro la gente será mejor.", author: "JULIO CORTÁZAR" },
+  { text: "Soy un intelectual que no renuncia a la lucha política.", author: "ERNESTO SÁBATO" },
+  { text: "El peronismo es el único movimiento político que ha dado dignidad al trabajador argentino.", author: "LEOPOLDO MARECHAL" },
+  { text: "La revolución no es una manzana que cae cuando está madura. Tienes que hacerla caer.", author: "CHE GUEVARA" },
+  { text: "Lo que no está en los libros, no existe.", author: "RODOLFO WALSH" },
+  { text: "Escribir es una manera de luchar.", author: "RODOLFO WALSH" },
+  { text: "La patria es el otro.", author: "JUAN GELMAN" },
+  { text: "La historia la escriben los que ganan.", author: "OSVALDO BAYER" },
+  { text: "Un hombre sin memoria es un árbol sin raíces.", author: "LEOPOLDO MARECHAL" },
+];
 
-      <div class="pricing-grid">
-        <!-- Plan Básico -->
-        <div class="pricing-card basic">
-          <h4>Plan Básico</h4>
-          <p class="price">$50.000 / mes</p>
-          <p>
-            Ideal para una shala única, estudio pequeño o profe independiente que quiere ordenar su gestión.
-          </p>
-          <ul>
-            <li>• Hasta 80 alumnos activos</li>
-            <li>• Todas las funciones de Etapa 1 y 2</li>
-            <li>• 5 GB de almacenamiento</li>
-          </ul>
-          <div class="pricing-footer">
-            <span>Perfecto para empezar sin sobrecargar costos.</span>
+function buildMarquee() {
+  const double = [...quotes, ...quotes];
+  const html = double.map(q =>
+    `<span class="marquee-item">"${q.text}"<strong>— ${q.author}</strong></span><span class="marquee-sep">·</span>`
+  ).join('');
+  document.getElementById('mtrack').innerHTML = html;
+}
+buildMarquee();
+
+// ─ BOOKS DATA ─
+const WSP = '5493534262857';
+const BOOKS = [
+  { id:1, title:'El Aleph', author:'Jorge Luis Borges', genre:'Literatura', price:2800, cond:'usado', avail:true,
+    svg: makeSVG('#2E1600','#0C0500','#1E0E00',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.2)" stroke-width="1"/>
+       <circle cx="84" cy="96" r="46" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+       <circle cx="84" cy="96" r="32" fill="none" stroke="rgba(245,194,58,0.13)" stroke-width="0.8"/>
+       <circle cx="84" cy="96" r="18" fill="none" stroke="rgba(245,194,58,0.22)" stroke-width="1"/>
+       <circle cx="84" cy="96" r="6" fill="rgba(245,194,58,0.22)"/>
+       <text x="84" y="165" text-anchor="middle" fill="#F5C23A" font-size="11" font-family="Georgia,serif" opacity="0.9" letter-spacing="2">EL ALEPH</text>
+       <text x="84" y="180" text-anchor="middle" fill="rgba(245,194,58,0.42)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">BORGES</text>`) },
+
+  { id:2, title:'Cien Años de Soledad', author:'Gabriel García Márquez', genre:'Literatura', price:3500, cond:'usado', avail:true,
+    svg: makeSVG('#001A08','#000A03','#001408',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <path d="M84 76 Q62 52 44 70 Q62 90 84 76Z" fill="none" stroke="rgba(245,194,58,0.22)" stroke-width="1.2"/>
+       <path d="M84 76 Q106 52 124 70 Q106 90 84 76Z" fill="none" stroke="rgba(245,194,58,0.22)" stroke-width="1.2"/>
+       <path d="M84 76 Q64 96 54 116 Q74 108 84 76Z" fill="none" stroke="rgba(245,194,58,0.15)" stroke-width="1"/>
+       <path d="M84 76 Q104 96 114 116 Q94 108 84 76Z" fill="none" stroke="rgba(245,194,58,0.15)" stroke-width="1"/>
+       <circle cx="84" cy="76" r="4" fill="rgba(245,194,58,0.3)"/>
+       <text x="84" y="158" text-anchor="middle" fill="#F5C23A" font-size="9.5" font-family="Georgia,serif" opacity="0.9" letter-spacing="1.5">CIEN AÑOS</text>
+       <text x="84" y="171" text-anchor="middle" fill="#F5C23A" font-size="9.5" font-family="Georgia,serif" opacity="0.9" letter-spacing="1.5">DE SOLEDAD</text>
+       <text x="84" y="186" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="7" font-family="Georgia,serif" letter-spacing="1.2">GARCÍA MÁRQUEZ</text>`) },
+
+  { id:3, title:'Código Civil y Comercial', author:'Lorenzetti et al.', genre:'Derecho', price:4200, cond:'usado', avail:false,
+    svg: makeSVG('#0E0E0E','#060606','#0A0A0A',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="#1E1E1E" stroke-width="1"/>
+       <line x1="84" y1="52" x2="84" y2="136" stroke="#2A2A2A" stroke-width="1.5"/>
+       <line x1="52" y1="76" x2="116" y2="76" stroke="#2A2A2A" stroke-width="1.5"/>
+       <circle cx="52" cy="76" r="14" fill="none" stroke="#2A2A2A" stroke-width="1.2"/>
+       <circle cx="116" cy="76" r="14" fill="none" stroke="#2A2A2A" stroke-width="1.2"/>
+       <path d="M74 134 L84 146 L94 134 Z" fill="#2A2A2A"/>
+       <text x="84" y="165" text-anchor="middle" fill="#3A3A3A" font-size="8.5" font-family="Georgia,serif" letter-spacing="1.5">CÓDIGO CIVIL</text>
+       <text x="84" y="179" text-anchor="middle" fill="#3A3A3A" font-size="8.5" font-family="Georgia,serif" letter-spacing="1.5">Y COMERCIAL</text>`) },
+
+  { id:4, title:'El Principito', author:'Antoine de Saint-Exupéry', genre:'Infantil', price:1800, cond:'usado', avail:true,
+    svg: makeSVG('#001828','#00080F','#001018',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <circle cx="50" cy="44" r="1.4" fill="#F5C23A" opacity="0.5"/>
+       <circle cx="124" cy="32" r="1.8" fill="#F5C23A" opacity="0.4"/>
+       <circle cx="136" cy="68" r="1.1" fill="#F5C23A" opacity="0.4"/>
+       <circle cx="30" cy="88" r="1.4" fill="#F5C23A" opacity="0.3"/>
+       <ellipse cx="84" cy="92" rx="36" ry="11" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1.1"/>
+       <circle cx="84" cy="76" r="22" fill="none" stroke="rgba(245,194,58,0.22)" stroke-width="1"/>
+       <circle cx="84" cy="76" r="14" fill="rgba(245,194,58,0.05)"/>
+       <text x="84" y="145" text-anchor="middle" fill="#F5C23A" font-size="9" font-family="Georgia,serif" opacity="0.9" letter-spacing="2">EL PRINCIPITO</text>
+       <text x="84" y="160" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="6.5" font-family="Georgia,serif" letter-spacing="1.5">SAINT-EXUPÉRY</text>`) },
+
+  { id:5, title:'Rayuela', author:'Julio Cortázar', genre:'Literatura', price:3200, cond:'usado', avail:true,
+    svg: makeSVG('#1E0010','#080004','#150008',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <rect x="56" y="30" width="52" height="26" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+       <line x1="82" y1="30" x2="82" y2="56" stroke="rgba(245,194,58,0.1)" stroke-width="1"/>
+       <rect x="56" y="59" width="52" height="24" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+       <rect x="56" y="86" width="24" height="24" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+       <rect x="84" y="86" width="24" height="24" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+       <rect x="56" y="113" width="52" height="22" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1"/>
+       <text x="84" y="163" text-anchor="middle" fill="#F5C23A" font-size="12" font-family="Georgia,serif" opacity="0.9" letter-spacing="2.5">RAYUELA</text>
+       <text x="84" y="179" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">CORTÁZAR</text>`) },
+
+  { id:6, title:'Diccionario RAE', author:'Real Academia Española', genre:'Diccionario', price:5000, cond:'nuevo', avail:true,
+    svg: makeSVG('#0A0A18','#04040C','#08081A',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <text x="84" y="118" text-anchor="middle" fill="rgba(245,194,58,0.2)" font-size="72" font-family="Georgia,serif" font-style="italic">Aa</text>
+       <line x1="30" y1="130" x2="138" y2="130" stroke="rgba(245,194,58,0.1)" stroke-width="0.8"/>
+       <line x1="30" y1="138" x2="138" y2="138" stroke="rgba(245,194,58,0.07)" stroke-width="0.8"/>
+       <text x="84" y="165" text-anchor="middle" fill="#F5C23A" font-size="10" font-family="Georgia,serif" opacity="0.9" letter-spacing="2">DICCIONARIO</text>
+       <text x="84" y="181" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">R.A.E.</text>`) },
+
+  { id:7, title:'Ficciones', author:'Jorge Luis Borges', genre:'Literatura', price:2500, cond:'usado', avail:true,
+    svg: makeSVG('#181200','#080600','#100E00',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <rect x="44" y="44" width="80" height="80" fill="none" stroke="rgba(245,194,58,0.2)" stroke-width="1.2"/>
+       <rect x="56" y="56" width="56" height="56" fill="none" stroke="rgba(245,194,58,0.16)" stroke-width="1"/>
+       <rect x="68" y="68" width="32" height="32" fill="none" stroke="rgba(245,194,58,0.12)" stroke-width="1"/>
+       <rect x="78" y="78" width="12" height="12" fill="none" stroke="rgba(245,194,58,0.2)" stroke-width="1"/>
+       <circle cx="84" cy="84" r="3.5" fill="rgba(245,194,58,0.22)"/>
+       <rect x="44" y="88" width="12" height="12" fill="url(#bg7)"/>
+       <text x="84" y="162" text-anchor="middle" fill="#F5C23A" font-size="11" font-family="Georgia,serif" opacity="0.9" letter-spacing="2.5">FICCIONES</text>
+       <text x="84" y="178" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">BORGES</text>`) },
+
+  { id:8, title:'Manual de Derecho Penal', author:'Zaffaroni', genre:'Derecho', price:6500, cond:'usado', avail:true,
+    svg: makeSVG('#100010','#060006','#0C000C',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <line x1="84" y1="40" x2="84" y2="136" stroke="rgba(245,194,58,0.25)" stroke-width="1.5"/>
+       <line x1="50" y1="70" x2="118" y2="70" stroke="rgba(245,194,58,0.25)" stroke-width="1.5"/>
+       <path d="M36 70 Q50 90 64 70" fill="none" stroke="rgba(245,194,58,0.2)" stroke-width="1.2"/>
+       <line x1="36" y1="70" x2="50" y2="70" stroke="rgba(245,194,58,0.15)" stroke-width="1"/>
+       <line x1="64" y1="70" x2="50" y2="70" stroke="rgba(245,194,58,0.15)" stroke-width="1"/>
+       <path d="M104 70 Q118 88 132 70" fill="none" stroke="rgba(245,194,58,0.2)" stroke-width="1.2"/>
+       <line x1="104" y1="70" x2="118" y2="70" stroke="rgba(245,194,58,0.15)" stroke-width="1"/>
+       <line x1="132" y1="70" x2="118" y2="70" stroke="rgba(245,194,58,0.15)" stroke-width="1"/>
+       <path d="M74 134 L84 146 L94 134 Z" fill="rgba(245,194,58,0.2)"/>
+       <line x1="64" y1="138" x2="104" y2="138" stroke="rgba(245,194,58,0.25)" stroke-width="1.5"/>
+       <text x="84" y="165" text-anchor="middle" fill="#F5C23A" font-size="9" font-family="Georgia,serif" opacity="0.9" letter-spacing="1.5">DERECHO PENAL</text>
+       <text x="84" y="180" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">ZAFFARONI</text>`) },
+
+  { id:9, title:'Operación Masacre', author:'Rodolfo Walsh', genre:'Historia', price:2200, cond:'usado', avail:true,
+    svg: makeSVG('#0A0A00','#040400','#080800',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.16)" stroke-width="1"/>
+       <rect x="34" y="26" width="100" height="152" rx="1" fill="none" stroke="rgba(245,194,58,0.08)" stroke-width="0.8"/>
+       <line x1="42" y1="50" x2="126" y2="50" stroke="rgba(245,194,58,0.12)" stroke-width="1"/>
+       <line x1="42" y1="60" x2="126" y2="60" stroke="rgba(245,194,58,0.09)" stroke-width="0.8"/>
+       <line x1="42" y1="70" x2="110" y2="70" stroke="rgba(245,194,58,0.09)" stroke-width="0.8"/>
+       <line x1="42" y1="80" x2="126" y2="80" stroke="rgba(245,194,58,0.09)" stroke-width="0.8"/>
+       <line x1="42" y1="90" x2="100" y2="90" stroke="rgba(245,194,58,0.09)" stroke-width="0.8"/>
+       <line x1="42" y1="100" x2="126" y2="100" stroke="rgba(245,194,58,0.09)" stroke-width="0.8"/>
+       <circle cx="84" cy="36" r="6" fill="rgba(245,194,58,0.15)"/>
+       <text x="84" y="158" text-anchor="middle" fill="#F5C23A" font-size="9" font-family="Georgia,serif" opacity="0.9" letter-spacing="1.2">OPERACIÓN</text>
+       <text x="84" y="172" text-anchor="middle" fill="#F5C23A" font-size="9" font-family="Georgia,serif" opacity="0.9" letter-spacing="1.2">MASACRE</text>
+       <text x="84" y="187" text-anchor="middle" fill="rgba(245,194,58,0.42)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">R. WALSH</text>`) },
+
+  { id:10, title:'El Ser y la Nada', author:'Jean-Paul Sartre', genre:'Filosofía', price:3800, cond:'usado', avail:true,
+    svg: makeSVG('#050505','#020202','#040404',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <circle cx="84" cy="88" r="48" fill="none" stroke="rgba(245,194,58,0.07)" stroke-width="0.8"/>
+       <circle cx="84" cy="88" r="35" fill="none" stroke="rgba(245,194,58,0.1)" stroke-width="0.8"/>
+       <circle cx="84" cy="88" r="22" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <circle cx="84" cy="88" r="9" fill="none" stroke="rgba(245,194,58,0.18)" stroke-width="1.2"/>
+       <circle cx="84" cy="88" r="2" fill="rgba(245,194,58,0.3)"/>
+       <text x="84" y="160" text-anchor="middle" fill="#F5C23A" font-size="9.5" font-family="Georgia,serif" opacity="0.9" letter-spacing="1.5">EL SER Y LA NADA</text>
+       <text x="84" y="176" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">SARTRE</text>`) },
+
+  { id:11, title:'El Capital', author:'Karl Marx', genre:'Economía', price:4500, cond:'nuevo', avail:true,
+    svg: makeSVG('#0A1A0A','#040A04','#081208',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(180,50,50,0.25)" stroke-width="1"/>
+       <rect x="34" y="26" width="100" height="3" rx="1" fill="rgba(180,50,50,0.3)"/>
+       <rect x="34" y="32" width="100" height="1.5" rx="1" fill="rgba(180,50,50,0.2)"/>
+       <path d="M84 54 L84 120 M54 74 L114 74" stroke="rgba(180,50,50,0.35)" stroke-width="1.5"/>
+       <circle cx="84" cy="84" r="26" fill="none" stroke="rgba(180,50,50,0.2)" stroke-width="1"/>
+       <path d="M70 60 Q84 78 98 60" fill="none" stroke="rgba(180,50,50,0.18)" stroke-width="1"/>
+       <text x="84" y="158" text-anchor="middle" fill="#F5C23A" font-size="13" font-family="Georgia,serif" opacity="0.9" letter-spacing="2">EL CAPITAL</text>
+       <text x="84" y="175" text-anchor="middle" fill="rgba(245,194,58,0.42)" font-size="7.5" font-family="Georgia,serif" letter-spacing="1.5">KARL MARX</text>`) },
+
+  { id:12, title:'Psicología de las masas', author:'Sigmund Freud', genre:'Psicología', price:2900, cond:'usado', avail:true,
+    svg: makeSVG('#120A1A','#060408','#0E0814',
+      `<rect x="22" y="14" width="124" height="192" rx="2" fill="none" stroke="rgba(245,194,58,0.14)" stroke-width="1"/>
+       <path d="M84 42 Q112 42 118 64 Q124 86 110 100 Q124 114 118 136 Q112 158 84 158 Q56 158 50 136 Q44 114 58 100 Q44 86 50 64 Q56 42 84 42Z" fill="none" stroke="rgba(245,194,58,0.16)" stroke-width="1"/>
+       <path d="M84 56 Q104 56 108 72 Q112 88 100 98 Q112 108 108 124 Q104 140 84 140 Q64 140 60 124 Q56 108 68 98 Q56 88 60 72 Q64 56 84 56Z" fill="none" stroke="rgba(245,194,58,0.1)" stroke-width="0.8"/>
+       <circle cx="84" cy="98" r="8" fill="rgba(245,194,58,0.1)"/>
+       <text x="84" y="173" text-anchor="middle" fill="#F5C23A" font-size="8.5" font-family="Georgia,serif" opacity="0.9" letter-spacing="1.2">PSICOLOGÍA</text>
+       <text x="84" y="187" text-anchor="middle" fill="rgba(245,194,58,0.4)" font-size="7" font-family="Georgia,serif" letter-spacing="1.5">DE LAS MASAS</text>`) },
+];
+
+// helper to build the full svg string for a book card
+function makeSVG(top, bot, spine, inner) {
+  return `<svg viewBox="0 0 168 224" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="bg${Math.random().toString(36).slice(2,6)}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${top}"/><stop offset="100%" stop-color="${bot}"/></linearGradient></defs>
+    <rect width="168" height="224" fill="${top}"/>
+    <rect width="14" height="224" fill="${spine}"/>
+    <line x1="0" y1="18" x2="14" y2="18" stroke="#F5C23A" stroke-width="0.8" opacity="0.52"/>
+    <line x1="0" y1="206" x2="14" y2="206" stroke="#F5C23A" stroke-width="0.8" opacity="0.52"/>
+    ${inner}
+  </svg>`;
+}
+
+// Rebuild books with proper gradients
+BOOKS.forEach((b,i) => {
+  const colors = [
+    ['#2E1600','#0C0500','#1E0E00'],
+    ['#001A08','#000A03','#001408'],
+    ['#0E0E0E','#060606','#0A0A0A'],
+    ['#001828','#00080F','#001018'],
+    ['#1E0010','#080004','#150008'],
+    ['#0A0A18','#04040C','#08081A'],
+    ['#181200','#080600','#100E00'],
+    ['#100010','#060006','#0C000C'],
+    ['#0A0A00','#040400','#080800'],
+    ['#050505','#020202','#040404'],
+    ['#0A1A0A','#040A04','#081208'],
+    ['#120A1A','#060408','#0E0814'],
+  ];
+  const [top,bot,sp] = colors[i] || colors[0];
+  // The inner SVG content is already set per book
+});
+
+// ─ FILTERS / SORT ─
+let activeFilters = { genero:'todos', estado:'todos', disp:'todos' };
+let activeSort = 'default';
+
+document.querySelectorAll('.pill[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const f = btn.dataset.filter;
+    document.querySelectorAll(`.pill[data-filter="${f}"]`).forEach(p => p.classList.remove('on'));
+    btn.classList.add('on');
+    activeFilters[f] = btn.dataset.val;
+    renderBooks();
+  });
+});
+document.getElementById('sort-select').addEventListener('change', e => {
+  activeSort = e.target.value;
+  renderBooks();
+});
+
+function getFiltered() {
+  let books = [...BOOKS];
+  if (activeFilters.genero !== 'todos') books = books.filter(b => b.genre === activeFilters.genero);
+  if (activeFilters.estado !== 'todos') books = books.filter(b => b.cond === activeFilters.estado);
+  if (activeFilters.disp  !== 'todos') books = books.filter(b => b.avail);
+  if (activeSort === 'precio-asc')  books.sort((a,b) => a.price - b.price);
+  if (activeSort === 'precio-desc') books.sort((a,b) => b.price - a.price);
+  if (activeSort === 'az')          books.sort((a,b) => a.title.localeCompare(b.title));
+  return books;
+}
+
+function renderBooks() {
+  const books = getFiltered();
+  const grid = document.getElementById('book-grid');
+  document.getElementById('catalog-count').textContent = `Mostrando ${books.length} libro${books.length!==1?'s':''}`;
+
+  if (books.length === 0) {
+    grid.innerHTML = `<div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--muted);font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic">No hay libros con esos filtros.</div>`;
+    return;
+  }
+
+  grid.innerHTML = books.map(b => {
+    const badgeClass = !b.avail ? 'sold' : b.cond === 'nuevo' ? 'new' : 'avail';
+    const badgeText  = !b.avail ? 'Reservado' : b.cond === 'nuevo' ? 'Nuevo' : 'Disponible';
+    const action = b.avail
+      ? `<span class="book-action">Reservar <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="#F5C23A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`
+      : `<span style="font-size:0.72rem;color:var(--muted)">No disponible</span>`;
+    const onclick = b.avail ? `onclick="openModal('${b.title.replace(/'/g,"\\'")}','${b.author.replace(/'/g,"\\'")}','${b.genre}','$${b.price.toLocaleString('es-AR')}','${b.cond}')"` : '';
+    return `
+      <div class="book-card${b.avail?'':' sold'}" ${onclick}>
+        <div class="book-cover">
+          ${b.svg}
+          <span class="badge ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="book-info">
+          <p class="book-genre">${b.genre}</p>
+          <p class="book-title">${b.title}</p>
+          <p class="book-author">${b.author}</p>
+          <div class="book-footer">
+            <span class="book-price">$${b.price.toLocaleString('es-AR')} <span class="book-cond">· ${b.cond}</span></span>
+            ${action}
           </div>
         </div>
+      </div>`;
+  }).join('');
+}
 
-        <!-- Plan Profesional -->
-        <div class="pricing-card featured">
-          <span class="featured-badge">Recomendado</span>
-          <h4>Plan Profesional</h4>
-          <p class="price">$130.000 / mes</p>
-          <p>
-            Para espacios con comunidad activa, clases regulares y foco en crecimiento.
-          </p>
-          <ul>
-            <li>• Alumnos ilimitados</li>
-            <li>• Funcionalidades hasta Etapa 4</li>
-            <li>• 20 GB de almacenamiento</li>
-            <li>• Analytics básicos de uso</li>
-          </ul>
-          <div class="pricing-footer">
-            <span>Pensado para espacios consolidados que quieren escalar.</span>
-          </div>
-        </div>
+renderBooks();
 
-        <!-- Plan Enterprise -->
-        <div class="pricing-card enterprise">
-          <h4>Plan Enterprise</h4>
-          <p class="price">$350.000 / mes</p>
-          <p>
-            Para grupos de shalas, escuelas grandes o proyectos con requerimientos especiales.
-          </p>
-          <ul>
-            <li>• Múltiples sedes / locaciones</li>
-            <li>• Personalizaciones a medida</li>
+// ─ DELIVERY TOGGLE ─
+let delivery = 'local';
+function selectDelivery(opt) {
+  delivery = opt;
+  document.getElementById('opt-local').className = 'delivery-opt' + (opt==='local'?' selected':'');
+  document.getElementById('opt-wsp').className   = 'delivery-opt' + (opt==='wsp'?' selected-wsp':'');
+}
+
+// ─ MODAL ─
+let currentBook = {};
+function openModal(title, author, genre, price, cond) {
+  currentBook = {title, author, genre, price, cond};
+  document.getElementById('mTitle').textContent  = title;
+  document.getElementById('mAuthor').textContent = author;
+  document.getElementById('mPrice').textContent  = price + ' · ' + cond;
+  document.getElementById('fState').style.display = 'block';
+  document.getElementById('sState').style.display = 'none';
+  selectDelivery('local');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  ['iNombre','iDni','iEmail','iTel'].forEach(id => document.getElementById(id).value = '');
+}
+function handleOverlay(e) {
+  if (e.target === document.getElementById('overlay')) closeModal();
+}
+
+function confirmReserve() {
+  const v = id => document.getElementById(id).value.trim();
+  const nombre = v('iNombre'), dni = v('iDni'), email = v('iEmail'), tel = v('iTel');
+  if (!nombre || !dni || !email || !tel) { alert('Completá todos los campos.'); return; }
+  if (!email.includes('@')) { alert('Email inválido.'); return; }
+
+  const code = 'EXP-' + Math.floor(1000 + Math.random()*9000);
+  document.getElementById('rCode').textContent = code;
+
+  // Build WhatsApp link
+  const msg = encodeURIComponent(
+    `Hola Expolibro! Acabo de reservar el libro "${currentBook.title}" de ${currentBook.author}. Mi nombre es ${nombre}, DNI ${dni}, teléfono ${tel}. Código de reserva: ${code}. Quisiera coordinar el envío.`
+  );
+  const wspEl = document.getElementById('wspLink');
+  if (delivery === 'wsp') {
+    wspEl.href = `https://wa.me/${WSP}?text=${msg}`;
+    wspEl.style.display = 'flex';
+  } else {
+    wspEl.style.display = 'none';
+  }
+
+  document.getElementById('fState').style.display = 'none';
+  document.getElementById('sState').style.display = 'block';
+}
+</script>
+</body>
+</html>
